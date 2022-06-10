@@ -32,8 +32,9 @@ def new_game():
 
 @app.post("/api/score-word")
 def score_word():
-    """Takes a JSON {game ID:, word:}, checks if a legal word,
-        returns JSON {result:}"""
+    """Takes a JSON: {game ID, word}, checks if word is legal for game instance,
+        return JSON: {result}"""
+
     word = request.json['word'].upper()
 
     game_id = request.json['game_id']

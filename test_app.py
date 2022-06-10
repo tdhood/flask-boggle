@@ -47,13 +47,15 @@ class BoggleAppTestCase(TestCase):
 
     def test_api_score_word(self):
         """Test if word is valid"""
-
+        
         with app.test_client() as client:
+            # create game instance and manually set board
             game_response = client.post('/api/new-game')
             game_id = game_response.get_json()["gameId"]
             row = ["D","O","G","G","O"]
             games[game_id].board = [row, row, row, row, row]
 
+            # checking valid word
             response = client.post('/api/score-word',
             json={
                 "game_id": game_id,
@@ -62,6 +64,7 @@ class BoggleAppTestCase(TestCase):
             json_response = response.get_json()
             self.assertEqual({"result: ok"}, json_response)
 
+            # checking if word not on board
             response = client.post('/api/score-word',
             json={
                 "game_id": game_id,
@@ -70,6 +73,7 @@ class BoggleAppTestCase(TestCase):
             json_response = response.get_json()
             self.assertEqual({"result: not-on-board"}, json_response)
 
+            # checking for duplicate word 
             response = client.post('/api/score-word',
             json={
                 "game_id": game_id,
