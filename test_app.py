@@ -1,3 +1,4 @@
+import string
 from unittest import TestCase
 
 from app import app, games
@@ -28,11 +29,20 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn('<table', html)
             self.assertIn('boggle homepage', html)
-            # test that you're getting a template
 
     def test_api_new_game(self):
         """Test starting a new game."""
 
         with self.client as client:
-            ...
-            # write a test for this route
+            response = client.post('/api/new-game')
+            json = response.get_json()
+            first_row = json["board"][0]
+
+            self.assertIn(json["gameId"], games)
+            self.assertIn("gameId", json)
+            self.assertIn("board", json)
+            self.assertIsInstance(json["gameId"], str)
+            self.assertIsInstance(json["board"], list)
+            self.assertIsInstance(first_row, list)
+
+
