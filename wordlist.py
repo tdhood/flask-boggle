@@ -34,7 +34,7 @@ class WordList:
             >>> wl.check_word('CAT')
             True
 
-            >>> 'LIZARD' in wl.words
+            >>> wl.check_word('LIZARD')
             False
         """
 
