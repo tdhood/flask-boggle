@@ -45,4 +45,37 @@ class BoggleAppTestCase(TestCase):
             self.assertIsInstance(json["board"], list)
             self.assertIsInstance(first_row, list)
 
+    def test_api_score_word(self):
+        """Test if word is valid"""
+
+        with app.test_client() as client:
+            game_response = client.post('/api/new-game')
+            game_id = game_response.get_json()["gameId"]
+            row = ["D","O","G","G","O"]
+            games[game_id].board = [row, row, row, row, row]
+
+            response = client.post('/api/score-word',
+            json={
+                "game_id": game_id,
+                "word": "dog"
+            })
+            json_response = response.get_json()
+            self.assertEqual({"result: ok"}, json_response)
+
+            response = client.post('/api/score-word',
+            json={
+                "game_id": game_id,
+                "word": "cat"
+            })
+            json_response = response.get_json()
+            self.assertEqual({"result: not-on-board"}, json_response)
+
+            response = client.post('/api/score-word',
+            json={
+                "game_id": game_id,
+                "word": "dog"
+            })
+            json_response = response.get_json()
+            self.assertEqual({"result: not-word"}, json_response)
+
 
