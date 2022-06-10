@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, jsonify
 from uuid import uuid4
-import json
 
 from boggle import BoggleGame
 
@@ -34,19 +33,16 @@ def new_game():
 @app.post("/api/score-word")
 def score_word():
     """Takes a json{game ID, word}, checks if a legal word, returns json"""
-    word = request.json['word']
-    game_id = request.json['game_id']
-    game = games[game_id]
-
-    if game.is_word_not_a_dup(word):
-        return yay
-    if not game.is_word_in_word_list(word):
-        return yay
-    if game.check_word_on_board(word):
-        return 
-
-
+    word = request.json['word'].upper()
     print(word)
 
-            
-    return word
+    game_id = request.json['game_id']
+    game = games[game_id]
+    print(game.word_list)
+
+    if not game.is_word_in_word_list(word) or not game.is_word_not_a_dup(word):
+        return jsonify({"result": "not-word"})
+    elif not game.check_word_on_board(word):
+        return jsonify({"result": "not-on-board"})
+    else:
+        return jsonify({"result": "ok"})

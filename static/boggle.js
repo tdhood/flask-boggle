@@ -8,7 +8,6 @@ const $table = $("table");
 
 let gameId;
 
-
 /** Start */
 
 async function start() {
