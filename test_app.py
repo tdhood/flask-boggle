@@ -56,29 +56,32 @@ class BoggleAppTestCase(TestCase):
             games[game_id].board = [row, row, row, row, row]
 
             # checking valid word
-            response = client.post('/api/score-word',
-            json={
-                "game_id": game_id,
-                "word": "dog"
-            })
+            response = client.post(
+                '/api/score-word',
+                json={
+                    "game_id": game_id,
+                    "word": "dog"
+                })
             json_response = response.get_json()
             self.assertEqual({"result: ok"}, json_response)
 
             # checking if word not on board
-            response = client.post('/api/score-word',
-            json={
-                "game_id": game_id,
-                "word": "cat"
-            })
+            response = client.post(
+                '/api/score-word',
+                json={
+                    "game_id": game_id,
+                    "word": "cat"
+                })
             json_response = response.get_json()
             self.assertEqual({"result: not-on-board"}, json_response)
 
             # checking for duplicate word 
-            response = client.post('/api/score-word',
-            json={
-                "game_id": game_id,
-                "word": "dog"
-            })
+            response = client.post(
+                '/api/score-word',
+                json={
+                    "game_id": game_id,
+                    "word": "dog"
+                })
             json_response = response.get_json()
             self.assertEqual({"result: not-word"}, json_response)
 
