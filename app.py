@@ -39,7 +39,7 @@ def score_word():
             return JSON:{"not-on-board"}
         if word is valid:
             return JSON: {"OK"}
-            """
+    """
 
     word = request.json['word'].upper()
 

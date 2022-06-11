@@ -63,7 +63,7 @@ class BoggleAppTestCase(TestCase):
                     "word": "dog"
                 })
             json_response = response.get_json()
-            self.assertEqual({"result: ok"}, json_response)
+            self.assertEqual({"result: ok"}, dict_response)
 
             # checking if word not on board
             response = client.post(
@@ -72,8 +72,8 @@ class BoggleAppTestCase(TestCase):
                     "game_id": game_id,
                     "word": "cat"
                 })
-            json_response = response.get_json()
-            self.assertEqual({"result: not-on-board"}, json_response)
+            dict_response = response.get_json()
+            self.assertEqual({"result: not-on-board"}, dict_response)
 
             # checking for duplicate word 
             response = client.post(
@@ -82,7 +82,7 @@ class BoggleAppTestCase(TestCase):
                     "game_id": game_id,
                     "word": "dog"
                 })
-            json_response = response.get_json()
-            self.assertEqual({"result: not-word"}, json_response)
+            dict_response = response.get_json()
+            self.assertEqual({"result: not-word"}, dict_response)
 
 
